@@ -18,17 +18,48 @@ required
 
 the for attr of the label tag should be the same as id
 
+<div class="box">
+      <h4>Question 1</h4>
+      <form>
+       <button>Option</button>
+      </form>
+    </div>
+    <div class="box">
+      <h2>this is the end of the quiz</h2>
+      <h3>score</h3>
+      <form> 
+       <button>restart quiz</button> 
+      </form>
+  </div>
+
+
+
 
 */
-function startScreen();
-function handleStart();
+function startScreen(){
+  return`
+  <div class="box">
+      <h2>this is the start of the quiz</h2>
+      <form> 
+       <button>start quiz</button> 
+      </form>
+    </div>
+    `;
+};
+
+
+
+
+
+/*function handleStart();
 function handleQuestion();
 function questionScreen();
-
-render(){
-
+*/
+function render(){
+  console.log('`startscreen` ran');
+  const start = startScreen();
+  $(".main").html(start);
 }
-
 
 
 /**
@@ -62,6 +93,15 @@ const store = {
   questionNumber: 0,
   score: 0
 };
+function renderseverything() {
+  render();
+}
+
+
+
+
+$(render);
+
 
 /**
  *
