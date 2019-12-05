@@ -6,3 +6,9 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */
+body{
+  display:flex;
+  justify-content: center;
+
+
+}
