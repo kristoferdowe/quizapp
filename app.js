@@ -40,19 +40,22 @@ function startScreen(){
   return`
   <div class="box">
       <h2>this is the start of the quiz</h2>
-      <form> 
-       <button>start quiz</button> 
+      <form id="start"> 
+       <button class = "startbutton">start quiz</button> 
       </form>
     </div>
     `;
 };
 
 
-
-
-
-/*function handleStart();
-function handleQuestion();
+function handleStart(){
+  
+$('#start').on('click', '.startbutton', event => {
+  event.preventDefault();
+  console.log('Quiz has been started');
+});
+}
+/*function handleQuestion();
 function questionScreen();
 */
 function render(){
@@ -94,13 +97,14 @@ const store = {
   score: 0
 };
 function renderseverything() {
-  render();
+render();
+handleStart();
 }
 
 
 
 
-$(render);
+$(renderseverything);
 
 
 /**
