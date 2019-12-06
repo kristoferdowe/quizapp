@@ -18,12 +18,7 @@ required
 
 the for attr of the label tag should be the same as id
 
-<div class="box">
-      <h4>Question 1</h4>
-      <form>
-       <button>Option</button>
-      </form>
-    </div>
+
     <div class="box">
       <h2>this is the end of the quiz</h2>
       <h3>score</h3>
@@ -32,39 +27,7 @@ the for attr of the label tag should be the same as id
       </form>
   </div>
 
-
-
-
 */
-function startScreen(){
-  return`
-  <div class="box">
-      <h2>this is the start of the quiz</h2>
-      <form id="start"> 
-       <button class = "startbutton">start quiz</button> 
-      </form>
-    </div>
-    `;
-};
-
-
-function handleStart(){
-  
-$('#start').on('click', '.startbutton', event => {
-  event.preventDefault();
-  console.log('Quiz has been started');
-});
-}
-/*function handleQuestion();
-function questionScreen();
-*/
-function render(){
-  console.log('`startscreen` ran');
-  const start = startScreen();
-  $(".main").html(start);
-}
-
-
 /**
  * Example store structure
  */
@@ -92,16 +55,74 @@ const store = {
       correctAnswer: '2019'
     }
   ],
-  quizstarted:false,
+  quizstarted:true,
   questionNumber: 0,
   score: 0
 };
+
+function startScreen(){
+  return`
+  <div class="box">
+      <h2>this is the start of the quiz</h2>
+      <form id="start"> 
+       <button class = "startbutton">start quiz</button> 
+      </form>
+    </div>
+    `;
+};
+
+
+function handleStart(){
+  
+$('#start').on('click', '.startbutton', event => {
+  event.preventDefault();
+  console.log('Quiz has been started');
+  store.quizstarted=false;
+  console.log(store.quizstarted)
+  render();
+});
+}
+function questionScreen(){
+return`<div class="box">
+      <h4>Question 1</h4>
+      <form>
+       <button>Option</button>
+      </form>
+    </div>
+    `
+};
+
+
+/*function handleQuestion();
+*/
+function render(){
+  console.log(store.quizstarted)
+  if(store.quizstarted){
+    console.log('`startscreen` ran');
+    const start = startScreen();
+    $(".main").html(start);
+    return
+  }
+  else if(store.questionNumber > -1 && store.questionNumber<store.questions.length){
+    console.log('`questionscreen` ran');
+    const questionscreen = questionScreen();
+    $(".main").html(questionscreen);
+    //console.log("it is now false");
+  }
+
+}
+/*
+else if{questionNumber > 0 && questionNumber<questions.length}{
+  //render the question and options
+}
+else{
+  //render the end screen 
+}*/
+
 function renderseverything() {
 render();
 handleStart();
 }
-
-
 
 
 $(renderseverything);
