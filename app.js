@@ -1,33 +1,3 @@
-//map to loop throught the quiz 
-/*
-function generateShoppingListElements(items){
-  // Create new array of HTML strings
-  const elements = items.map((item, index) => {
-    return generateShoppingItemHtml(item, index);//make this functio for quiz
-  });
-
-  // Join the array into a single string and return it
-  return elements.join();
-}
-use find(), .closest(), etc
-.data(), .attr()
-.html()//be wary
-name shoulkd be the same for all not be linked togehter for inputs
-gisabled atrrbute theat can be set on input fiels so if they are right
-required 
-
-the for attr of the label tag should be the same as id
-
-
-    <div class="box">
-      <h2>this is the end of the quiz</h2>
-      <h3>score</h3>
-      <form> 
-       <button>restart quiz</button> 
-      </form>
-  </div>
-
-*/
 /**
  * Example store structure
  */
@@ -59,73 +29,148 @@ const store = {
   questionNumber: 0,
   score: 0
 };
+/*****************************************************************/
+/* ALL div/html components that are being used*/
 
 function startScreen(){
   return`
   <div class="box">
       <h2>this is the start of the quiz</h2>
       <form id="start"> 
-       <button class = "startbutton">start quiz</button> 
+       <button class = "startbutton">start quiz</button>
+       
       </form>
     </div>
     `;
 };
 
+function generateanswers(num){
 
-function handleStart(){
+  const items = store.questions[num].answers.map((item) => generateItemElement(item));
   
-$('#start').on('click', '.startbutton', event => {
-  event.preventDefault();
-  console.log('Quiz has been started');
-  store.quizstarted=false;
-  console.log(store.quizstarted)
-  render();
-});
+  return `<form id = "options">${items.join("")}</form>`;
+  
+  }
+function generateItemElement(option){
+  return`
+  <button class = "options" id =${option} >${option}</button>
+  `
 }
-function questionScreen(){
-return`<div class="box">
-      <h4>Question 1</h4>
-      <form>
-       <button>Option</button>
-      </form>
+  
+function questionScreen(questionNumber){
+  let html =`<div class="box">
+    <h4>Question ${store.questionNumber + 1 }</h4>
+    <p>Your score is ${store.score}/${store.questions.length}</p>
+    <h3>${store.questions[store.questionNumber].question}</h3>
+   `
+  let options=generateanswers(questionNumber);
+  
+  let wholequetionsandchoices = html+options;
+  
+  return wholequetionsandchoices;
+  };
+  function endScreen(){
+    return`
+    <div class="box">
+        <h2>this is the end of the quiz</h2>
+        <h3>Your score is ${store.score} out of ${store.questions.length}</h3>
+        <form id="end"> 
+         <button class ="restart" >restart quiz</button> 
+        </form>
     </div>
     `
+  }
+
+/*****************************************************************/
+/* alll the handle functions */
+
+
+
+
+
+
+function handleStart(){
+  $('#start').on('click', '.startbutton', event => {
+    event.preventDefault();
+    console.log('Quiz has been started');
+    store.quizstarted=false;
+    render();//re render to question
+  });
+}
+
+
+
+function handleScore(val){
+  console.log(store.questions[store.questionNumber].correctAnswer)
+  if(val === store.questions[store.questionNumber].correctAnswer){
+    store.score++;
+    return true
+  }
+  console.log(store.score);
+  return false
+}
+
+
+
+function handleQuestion(){
+  $("#options").on('click',".options", event => {
+    event.preventDefault();
+    console.log('Quiz answer been submitted');
+    let answerchosen = event.currentTarget.getAttribute("id");
+    handleScore(answerchosen);//handles if answer is correct
+    store.questionNumber++;  //goes to next question
+    render();//calls back to render next question everything
+  });
 };
 
+function handleEnd(){
+  $('#end').on('click', '.restart', event => {
+    event.preventDefault();
+    console.log('Quiz has been restarted');
+    store.quizstarted=true;
+    store.score=0;
+    store.questionNumber = 0;
+    render();
+    $(handleStart);
+  });
+}
 
-/*function handleQuestion();
-*/
+
+/*****************************************************************/
+/* the master Render function*/
+
 function render(){
-  console.log(store.quizstarted)
+  //console.log(store.quizstarted)
   if(store.quizstarted){
     console.log('`startscreen` ran');
     const start = startScreen();
     $(".main").html(start);
-    return
   }
   else if(store.questionNumber > -1 && store.questionNumber<store.questions.length){
     console.log('`questionscreen` ran');
-    const questionscreen = questionScreen();
+    const questionscreen = questionScreen(store.questionNumber);
     $(".main").html(questionscreen);
-    //console.log("it is now false");
+    $(handleQuestion);//to see all options again in new dom
   }
-
+  else{
+    console.log('`endscreen` ran')
+    const end = endScreen();
+    $(".main").html(end);
+    $(handleEnd);//to see all options again in new dom
+  }
 }
-/*
-else if{questionNumber > 0 && questionNumber<questions.length}{
-  //render the question and options
-}
-else{
-  //render the end screen 
-}*/
+/*****************************************************************/
+/* the whole quiz app*/
 
-function renderseverything() {
-render();
-handleStart();
+function quiz() {
+  render();
+  handleStart();
+  handleQuestion();
+  handleScore();
+  handleEnd();
 }
 
-
-$(renderseverything);
+$(quiz);
 
 
 /**
