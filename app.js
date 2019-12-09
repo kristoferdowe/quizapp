@@ -5,25 +5,58 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What color is broccoli?',
+      question: 'The initial, non-diffused echoes of a signal are referred to as ___ ' ,
       answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
+        'redux',
+        'reverb',
+        'metaverb',
+        'early-reflection'
       ],
-      correctAnswer: 'green'
+      correctAnswer: 'early-reflection'
     },
     {
-      question: 'What is the current year?',
+      question: 'The Fletcher-Munson Curve visually describes a given sounds perceived _______ relative to frequency ',
       answers: [
-        '1970',
-        '2015',
-        '2019',
-        '2005'
+        
+        'polish',
+        'swing',
+        'loudness',
+        'key'
       ],
-      correctAnswer: '2019'
-    }
+      correctAnswer: 'loudness'
+    },
+    {
+      question: 'Swung grooves lack ____',
+      answers: [
+        'bass',
+        'quantization',
+        'hi end',
+        'balance'
+      ],
+      correctAnswer: 'quantization'
+    },
+    {
+      question: 'Full-sphere surround sound formats are called ____',
+      answers: [
+        'ambisonics',
+        'stereo',
+        'mono',
+        'multisonics'
+      ],
+      correctAnswer: 'ambisonics'
+    },
+    {
+      question: 'Phase cancellation can be a result of ____',
+      answers: [
+        'standingwaves',
+        'crashing waves',
+        'wave checks',
+        'laying waves'
+      ],
+      correctAnswer: 'standingwaves'
+    },
+    
+    
   ],
   quizstarted:true,
   questionNumber: 0,
@@ -35,7 +68,7 @@ const store = {
 function startScreen(){
   return`
   <div class="box">
-      <h2>this is the start of the quiz</h2>
+      <h2>Click below to begin! </h2>
       <form id="start"> 
        <button class = "startbutton">start quiz</button>
        
@@ -72,8 +105,8 @@ function questionScreen(questionNumber){
   function endScreen(){
     return`
     <div class="box">
-        <h2>this is the end of the quiz</h2>
-        <h3>Your score is ${store.score} out of ${store.questions.length}</h3>
+        <h2>Quiz complete!</h2>
+        <h3>You got ${store.score} out of ${store.questions.length} correct</h3>
         <form id="end"> 
          <button class ="restart" >restart quiz</button> 
         </form>
